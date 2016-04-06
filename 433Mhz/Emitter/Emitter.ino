@@ -1,41 +1,48 @@
 /*
- * Module de réception de signaux 443 Mhz, rectangulaire
+ * Module d'émission de signaux 443 Mhz, carré
  * Importer RCSwithch.zip dans IDE arduino
  * 
- * Affiche le signal reçu en 443 Mhz
+ * Emet un signal en 443 Mhz
  * 
- * Face au module à partir de la gauche 4 pin's
- * 1 vcc = 5v
- * 2 vide
- * 3 data =  du coté digital 2, interrupt 0
- * 4 gnd = masse
+ * Face au module à partir de la gauche 3 pin's
+ * 1 data = du coté digital 10
+ * 2 vcc = 5v
+ * 3 gnd = masse
  * 
- * Mettre une antenne en bas à gauche
- * 
- * Compilation donne 2 warnings dans bin2tristate(char*)
+ * Mettre une antenne en haut à droite
 */
 
+
 #include <RCSwitch.h>
-
+ 
 RCSwitch mySwitch = RCSwitch();
-
+ 
+unsigned long Lampe_bureau_OFF = 5393;
+unsigned long Lampe_bureau_ON  = 5201;
+ 
+unsigned long Lampe_salon_OFF  = 961256704;
+unsigned long Lampe_salon_ON   = 894147840;
+ 
+ 
 void setup() {
   Serial.begin(9600);
   
-  Serial.println("Initialisation");
-  
-  mySwitch.enableReceive(0);  // Receiver on inerrupt 0 => that is pin #2
-  
-  pinMode(RELAY1, OUTPUT);
+  // Emetteur connecté au pin #10 de l'Arduino  
+  mySwitch.enableTransmit(10);
+  Serial.println("init");
 }
-
+ 
 void loop() {
-  if (mySwitch.available()) {
-
-      //Display Info
-      output(mySwitch.getReceivedValue(), mySwitch.getReceivedBitlength(), mySwitch.getReceivedDelay(), mySwitch.getReceivedRawdata(),mySwitch.getReceivedProtocol());
-      int value = mySwitch.getReceivedValue();
-      
-      mySwitch.resetAvailable();
-  }
+  Serial.print("allumeBureau");
+  mySwitch.send(Lampe_bureau_ON, 24);
+  delay(1000);  
+  Serial.println("eteintSalon");
+  mySwitch.send(Lampe_bureau_OFF, 24);
+  delay(1000);  
+  Serial.println("allumeSalon");
+  mySwitch.send(Lampe_salon_ON, 24);
+  delay(1000);  
+  Serial.println("eteinSalon");
+  mySwitch.send(Lampe_salon_OFF, 24);
+  delay(5000);
 }

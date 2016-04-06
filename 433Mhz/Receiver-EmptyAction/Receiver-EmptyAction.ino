@@ -25,8 +25,6 @@ void setup() {
   Serial.println("Initialisation");
   
   mySwitch.enableReceive(0);  // Receiver on inerrupt 0 => that is pin #2
-  
-  pinMode(RELAY1, OUTPUT);
 }
 
 void loop() {
