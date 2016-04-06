@@ -10,6 +10,8 @@
  * 3 data =  du coté digital 2, interrupt 0
  * 4 gnd = masse
  * 
+ * Mettre une antenne en bas à gauche
+ * 
  * Compilation donne 2 warnings dans bin2tristate(char*)
 */
 
