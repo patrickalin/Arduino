@@ -17,12 +17,11 @@
  
 RCSwitch mySwitch = RCSwitch();
  
-unsigned long Lampe_bureau_OFF = 5393;
-unsigned long Lampe_bureau_ON  = 5201;
+unsigned long Lampe_bureau_OFF = 4433;
+unsigned long Lampe_bureau_ON  = 4436;
  
-unsigned long Lampe_salon_OFF  = 961256704;
-unsigned long Lampe_salon_ON   = 894147840;
- 
+unsigned long Lampe_salon_ON  = 961256704;
+unsigned long Lampe_salon_OFF   = 894147840;
  
 void setup() {
   Serial.begin(9600);
@@ -33,16 +32,18 @@ void setup() {
 }
  
 void loop() {
+  mySwitch.setProtocol(1);
   Serial.print("allumeBureau");
   mySwitch.send(Lampe_bureau_ON, 24);
   delay(1000);  
   Serial.println("eteintSalon");
   mySwitch.send(Lampe_bureau_OFF, 24);
   delay(1000);  
+  mySwitch.setProtocol(2);
   Serial.println("allumeSalon");
-  mySwitch.send(Lampe_salon_ON, 24);
+  mySwitch.send(Lampe_salon_ON, 32);
   delay(1000);  
   Serial.println("eteinSalon");
-  mySwitch.send(Lampe_salon_OFF, 24);
+  mySwitch.send(Lampe_salon_OFF, 32);
   delay(5000);
 }
